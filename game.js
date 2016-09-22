@@ -4,15 +4,31 @@
     var shipElem = document.getElementById('ship');
 
     // Create your "ship" object and any other variables you might need...
+     var ship = {
+        velocity: 0,
+        angle: 0,
+        element: shipElem
+    };
+
+
+    //set shipsCurrentAngle and shipsCurrentVelocity equal to ship object's angle and velocity (initialized at 0)
+    var shipsCurrentAngle = ship.angle;
+    var shipsCurrentVelocity = ship.velocity;
+    var angleString = 'rotate(' + String(shipsCurrentAngle) + 'deg)'; //sets current angle to a string so that it can be inserted into rotate() value line 73
+
+    console.log("ships current velocity is " + shipsCurrentVelocity);
+    console.log("ships current angle is " + shipsCurrentAngle);
+    console.log("angleString is " + angleString + "type: " + typeof(angleString));
 
 
     var allAsteroids = [];
-    shipElem.addEventListener('asteroidDetected', function (event) {
+    shipElem.addEventListener('asteroidDetected', function(event) {
         // You can detect when a new asteroid appears with this event.
         // The new asteroid's HTML element will be in:  event.detail
 
         // What might you need/want to do in here?
 
+        //add asteroids to an array to loop through to check for collisions
     });
 
     /**
@@ -28,10 +44,45 @@
      * @return {void}          In other words, no need to return anything
      */
     function handleKeys(event) {
-        console.log(event.keyCode);
+        //console.log(event.keyCode);
 
-        // Implement me!
+        // 1. if (event.keyCode === 38) increase velocity, velocity += 10
+        // 2. else if (event.keyCode ===40) decrease velocity, velocity -= 10
+        //3. else if (event.keyCode ===37) decreease angle, angle -=10
+        // 4. else if (event.keyCode ===39) increase angle, angle +=10;
+        if (event.keyCode === 38) {
+            ship.velocity ++;
+            shipsCurrentVelocity = ship.velocity;
+            console.log(shipsCurrentVelocity);
 
+        } else if (event.keyCode === 40) {
+
+            // if/else statement to set minimum velocity to zero
+
+            if (shipsCurrentVelocity <= 0) {
+              ship.velocity = 0;
+            } else {
+              ship.velocity --;
+              shipsCurrentVelocity = ship.velocity;
+              console.log(shipsCurrentVelocity);
+            }
+
+        } else if (event.keyCode === 37) {
+          ship.angle -=10;
+          shipsCurrentAngle = ship.angle;
+          var angleString = 'rotate(' + String(shipsCurrentAngle) + 'deg)';
+          ship.element.style.transform = angleString;
+
+          console.log(shipsCurrentAngle);
+
+        } else if (event.keyCode === 39) {
+          ship.angle +=10;
+          shipsCurrentAngle = ship.angle;
+          var angleString = 'rotate(' + String(shipsCurrentAngle) + 'deg)';
+          ship.element.style.transform = angleString;
+
+          console.log(shipsCurrentAngle);
+        }
     }
     document.querySelector('body').addEventListener('keyup', handleKeys);
 
@@ -84,7 +135,7 @@
      *
      * return {void}
      */
-    document.querySelector('main').addEventListener('crash', function () {
+    document.querySelector('main').addEventListener('crash', function() {
         console.log('A crash occurred!');
 
         // What might you need/want to do in here?
@@ -99,22 +150,24 @@
      *                   !!! DO NOT EDIT BELOW HERE !!!
      ** ************************************************************************/
 
-     var loopHandle = setInterval(gameLoop, 20);
+    var loopHandle = setInterval(gameLoop, 20);
 
-     /**
-      * Executes the code required when a crash has occurred. You should call
-      * this function when a collision has been detected with the asteroid that
-      * was hit as the only argument.
-      *
-      * @param  {HTMLElement} asteroidHit The HTML element of the hit asteroid
-      * @return {void}
-      */
+    /**
+     * Executes the code required when a crash has occurred. You should call
+     * this function when a collision has been detected with the asteroid that
+     * was hit as the only argument.
+     *
+     * @param  {HTMLElement} asteroidHit The HTML element of the hit asteroid
+     * @return {void}
+     */
     function crash(asteroidHit) {
         document.querySelector('body').removeEventListener('keyup', handleKeys);
         asteroidHit.classList.add('hit');
         document.querySelector('#ship').classList.add('crash');
 
-        var event = new CustomEvent('crash', { detail: asteroidHit });
+        var event = new CustomEvent('crash', {
+            detail: asteroidHit
+        });
         document.querySelector('main').dispatchEvent(event);
     }
 
