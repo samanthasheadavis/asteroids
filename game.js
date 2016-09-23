@@ -4,21 +4,21 @@
     var shipElem = document.getElementById('ship');
 
     // Create your "ship" object and any other variables you might need...
-     var ship = {
+    var ship = {
         velocity: 0,
         angle: 0,
-        element: shipElem
+        element: shipElem // linked actual ship element on the screen into object
     };
-
 
     //set shipsCurrentAngle and shipsCurrentVelocity equal to ship object's angle and velocity (initialized at 0)
     var shipsCurrentAngle = ship.angle;
     var shipsCurrentVelocity = ship.velocity;
-    var angleString = 'rotate(' + String(shipsCurrentAngle) + 'deg)'; //sets current angle to a string so that it can be inserted into rotate() value line 73
+    var angleString = 'rotate(' + String(shipsCurrentAngle) + 'deg)'; //changes current angle to a string so that it can be inserted into rotate() value line 73
 
-    console.log("ships current velocity is " + shipsCurrentVelocity);
-    console.log("ships current angle is " + shipsCurrentAngle);
-    console.log("angleString is " + angleString + "type: " + typeof(angleString));
+    // console.log("ships current velocity is " + shipsCurrentVelocity);
+    // console.log("ships current angle is " + shipsCurrentAngle);
+    // console.log("angleString is " + angleString + "type: " + typeof(angleString));
+
 
 
     var allAsteroids = [];
@@ -27,8 +27,9 @@
         // The new asteroid's HTML element will be in:  event.detail
 
         // What might you need/want to do in here?
-
         //add asteroids to an array to loop through to check for collisions
+
+
     });
 
     /**
@@ -44,44 +45,39 @@
      * @return {void}          In other words, no need to return anything
      */
     function handleKeys(event) {
-        //console.log(event.keyCode);
+      //  console.log(event.keyCode);
 
         // 1. if (event.keyCode === 38) increase velocity, velocity += 10
         // 2. else if (event.keyCode ===40) decrease velocity, velocity -= 10
         //3. else if (event.keyCode ===37) decreease angle, angle -=10
         // 4. else if (event.keyCode ===39) increase angle, angle +=10;
+
         if (event.keyCode === 38) {
-            ship.velocity ++;
+            ship.velocity += 10;
             shipsCurrentVelocity = ship.velocity;
-            console.log(shipsCurrentVelocity);
+            console.log("ships current velocity is: " + shipsCurrentVelocity);
 
         } else if (event.keyCode === 40) {
 
             // if/else statement to set minimum velocity to zero
 
             if (shipsCurrentVelocity <= 0) {
-              ship.velocity = 0;
+                ship.velocity = 0;
             } else {
-              ship.velocity --;
-              shipsCurrentVelocity = ship.velocity;
-              console.log(shipsCurrentVelocity);
+                ship.velocity -= 10;
+                shipsCurrentVelocity = ship.velocity;
+                console.log("ships current velocity is: " + shipsCurrentVelocity);
             }
 
         } else if (event.keyCode === 37) {
-          ship.angle -=10;
-          shipsCurrentAngle = ship.angle;
-          var angleString = 'rotate(' + String(shipsCurrentAngle) + 'deg)';
-          ship.element.style.transform = angleString;
-
-          console.log(shipsCurrentAngle);
+            ship.angle -= 10;
+            shipsCurrentAngle = ship.angle;
+            console.log("ships current angle is " + shipsCurrentAngle);
 
         } else if (event.keyCode === 39) {
-          ship.angle +=10;
-          shipsCurrentAngle = ship.angle;
-          var angleString = 'rotate(' + String(shipsCurrentAngle) + 'deg)';
-          ship.element.style.transform = angleString;
-
-          console.log(shipsCurrentAngle);
+            ship.angle += 10;
+            shipsCurrentAngle = ship.angle;
+            console.log("ships current angle is " + shipsCurrentAngle);
         }
     }
     document.querySelector('body').addEventListener('keyup', handleKeys);
@@ -101,8 +97,18 @@
         // Read the documentation!
         var move = getShipMovement(shipsCurrentVelocity, shipsCurrentAngle);
 
+      //  var moveTop= += move.top;
+      //  var moveLeft= += move.left; // variable that increments move.top and move.
 
-        // Move the ship here!
+        var moveTopString = (String(-moveTop) + "px"); //
+        var moveLeftString = (String(moveLeft) + "px");
+        var angleString = 'rotate(' + String(shipsCurrentAngle) + 'deg)';
+
+        ship.element.style.transform = angleString;
+        //set element position equal to current top and left properties
+        //transform origin: top left
+        ship.element.style.top = moveTopString;
+        ship.element.style.left = moveLeftString;
 
 
         // Time to check for any collisions (see below)...
@@ -126,7 +132,7 @@
     function checkForCollisions() {
 
         // Implement me!
-
+        // loop through array of asteroids to see if bounding boxes of ship and asteroid are equal, then implement crash(someAsteroidElement)
     }
 
 
@@ -139,7 +145,8 @@
         console.log('A crash occurred!');
 
         // What might you need/want to do in here?
-
+        //alert user that the game has ended
+        output()
     });
 
 
