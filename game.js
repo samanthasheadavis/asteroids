@@ -79,7 +79,7 @@
           //  console.log("ships current angle is " + shipsCurrentAngle);
         }
     }
-    document.querySelector('body').addEventListener('keyup', handleKeys);
+    document.querySelector('body').addEventListener('keydown', handleKeys);
 
     /**
      * This is the primary "game loop"... in traditional game development, things
@@ -132,10 +132,7 @@
     function checkForCollisions() {
 
       for (var asteroid = 0; asteroid < allAsteroids.length; asteroid++) {
-        if (ship.element.getBoundingClientRect().bottom > allAsteroids[asteroid].getBoundingClientRect().top
-            && ship.element.getBoundingClientRect().top < allAsteroids[asteroid].getBoundingClientRect().bottom
-            && ship.element.getBoundingClientRect().right > allAsteroids[asteroid].getBoundingClientRect().left
-            && ship.element.getBoundingClientRect().left < allAsteroids[asteroid].getBoundingClientRect().right) {
+        if (ship.element.getBoundingClientRect().bottom > allAsteroids[asteroid].getBoundingClientRect().top&& ship.element.getBoundingClientRect().top < allAsteroids[asteroid].getBoundingClientRect().bottom && ship.element.getBoundingClientRect().right > allAsteroids[asteroid].getBoundingClientRect().left && ship.element.getBoundingClientRect().left < allAsteroids[asteroid].getBoundingClientRect().right) {
               crash(allAsteroids[asteroid]);
               break;
             }
